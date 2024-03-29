@@ -12,7 +12,7 @@
     Unless required by applicable law or agreed to in writing,
     software distributed under the License is distributed on an
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, either express or implied.  See the License for the
+    KIND, either express or implied.  See the License for the 
     specific language governing permissions and limitations
     under the License.
 -->
@@ -30,7 +30,7 @@
     <description>This is an implementation of the R8.1 OSGi Servlet Service, the R7 OSGi Http Service and the R7 OSGi Http Whiteboard Specification</description>
 
     <artifactId>org.apache.felix.http.jetty12</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.5_BC</version>
     <packaging>bundle</packaging>
 
     <scm>
@@ -46,6 +46,13 @@
     </properties>
 
     <build>
+      <extensions>
+        <extension>
+          <groupId>org.apache.maven.wagon</groupId>
+          <artifactId>wagon-webdav</artifactId>
+          <version>1.0-beta-2</version>
+        </extension>
+      </extensions>
         <plugins>
 
             <!-- Use a groovy script to preserve the META-INF/services/* files for the artifacts that are embeded in the uber jar -->
