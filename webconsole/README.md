@@ -36,6 +36,8 @@ The Web Console can be configurated through a configuration using the service PI
 | `plugins` | all plugins enabled | The labels of the plugins enabled and displayed. |
 | `locale` | -- | If set, this locale forces the localization to use this locale instead of the one requested by the web browser. |
 | `http.service.filter` | -- | OSGi filter used to select the Http Service to which the Web Console binds. The value of this property (if not empty) is combined with the object class selection term to get the actual service selection filter like `(&(objectClass=org.osgi.service.http.HttpService)(filter))`. This property must not have leading or ending parentheses. For example, to bind to the service with service ID 15 set the property to `service.id=15`. By default (if this property is not set or set to an empty string) the Web Console binds with any Http Service available. |
+| `shutdown.timeout` | 5 | The timeout for felix shutdown |
+| `reload.timeout` | 40 | The timeout for webconsole page reload, after shutdown |
 
 ### Framework Properties
 
@@ -50,7 +52,7 @@ Such framework properties will also be considered actual default values for miss
 | `felix.webconsole.password` | `password` |
 | `felix.webconsole.locale` | `locale` |
 
-Please note that setting any of these properties as framework property makes them visible to all bundles deployed. This is particularly to be considered in case of the `felix.webconsole.password` property (as for authentication, the use of a [Web Console Security Provider](https://felix.apache.org/subprojects/apache-felix-web-console/web-console-security-provider) is suggested anyway).
+Please note that setting any of these properties as framework property makes them visible to all bundles deployed. This is particularly to be considered in case of the `felix.webconsole.password` property (as for authentication, the use of a [Web Console Security Provider](EXTENSIONS.md) is suggested anyway).
 
 ## Security
 
@@ -58,20 +60,19 @@ The Web Console only has very basic security at the moment supporting only HTTP 
 
 To enhance the security of the Web Console you are strongly encouraged to change at least the `password` for the admin user.
 
-As of Web Console 3.1.0 this simple user setup can be extended by providing link:[Web Console Security Provider](https://felix.apache.org/subprojects/apache-felix-web-console/web-console-security-provider).
-See that page for more information.
+This simple user setup can and should be extended by providing a [Web Console Security Provider](EXTENSIONS.md). See that page for more information.
 
 ## Extending the Web Console
 
-The Web Console can be extended by registering an OSGi service for the interface `jakarta.servlet.Servlet` with the service property `felix.webconsole.label` set to the label (last segment in the URL) of the page and `felix.webconsole.title` set to the display title of the plugin. The respective service is called a Web Console Plugin or a plugin for short.
+The Web Console can be extended by registering an OSGi service for the interface `jakarta.servlet.Servlet`.
 
-Please refer to [Extending the Apache Felix Web Console](https://felix.apache.org/subprojects/apache-felix-web-console/extending-the-apache-felix-web-console) for full documentation on extending the Web Console.
+Please refer to [Extending the Apache Felix Web Console](EXTENSIONS.md) for full documentation on extending the Web Console.
 
 ## RESTful API
 
 While the Web Console does not have a full featured and documented REST-ful API, most plugins try to follow REST approaches. For example the bundles plugin is able to send information on all bundles or a single bundle.
 
-An attempt is made to document the current state of REST-like APIs at link [Web Console RESTful API](https://felix.apache.org/subprojects/apache-felix-web-console/web-console-restful-api).
+An attempt is made to document the current state of REST-like APIs at link [Web Console RESTful API](RESTAPI.md).
 
 ## Issues
 
@@ -91,7 +92,7 @@ Additional plugins can be found in the [plugins directory](https://github.com/ap
 
 If an OSGi Configuration Admin Service is available at runtime, the Configuration Manager plugin can be used to manage OSGi configurations. For human readbable configuration descriptions it is advisable to also install an OSGi Metatype service.
 
-The Configuration Manager is available via `+http://localhost:8888/system/console/configMgr+`. It display all configurable OSGi services.
+The Configuration Manager is available via `http://localhost:8888/system/console/configMgr`. It display all configurable OSGi services.
 
 #### Configuration Factories
 
@@ -112,7 +113,14 @@ In this case the Configuration Manager displays the name "myRealm, myClass" as d
 
 ## Releases
 
-### Changes in 5.0.0 (NOT RELEASED)
+### Changes in 5.0.2 (14/Apr/24)
+
+#### Bug
+
+- [FELIX-6688](https://issues.apache.org/jira/browse/FELIX-6688) : Context path of outer servlet container is not respected for authentication
+
+
+### Changes in 5.0.0 (8/Jan/24)
 
 #### New Feature
 
@@ -125,6 +133,15 @@ In this case the Configuration Manager displays the name "myRealm, myClass" as d
 - [FELIX-6652](https://issues.apache.org/jira/browse/FELIX-6652) : Remove deprecated rendering attributes
 - [FELIX-6653](https://issues.apache.org/jira/browse/FELIX-6653) : Remove all and debug bundling
 - [FELIX-6654](https://issues.apache.org/jira/browse/FELIX-6654) : Remove support for commons fileupload
+
+
+### Changes in 4.9.8 (14/Apr/24)                                                                                                                                                                                                                                          #### Bug                                                                                                                                                                                                                                                                  - [FELIX-6688](https://issues.apache.org/jira/browse/FELIX-6688) : Context path of outer servlet container is not respected for authentication
+
+### Changes in 4.9.6 (7/Oct/23)
+
+####
+
+- [FELIX-6658](https://issues.apache.org/jira/browse/FELIX-6658) : URLs for status printers changed
 
 
 ### Changes in 4.9.4 (11/Sep/23)
